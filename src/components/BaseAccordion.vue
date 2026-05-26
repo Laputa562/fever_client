@@ -2,10 +2,13 @@
   <div class="accordion text-white">
     <div
       @click="filter()"
-      class="flex flex-row px-4 hover:bg-[#3a3a3a] gap-2 rounded-[6px] mx-4 py-2 font-domine"
-      :class="{ 'bg-[#2c2c2c]': active }"
+      class="flex flex-row px-4 dark:hover:bg-[#3a3a3a] hover:bg-[#b1b1b1] gap-2 text-[#000000] items-center dark:text-[#fff] rounded-[6px] mx-4 py-2 font-domine active:scale-99 hover:scale-101 transition-transform duration-80 ease-out active:opacity-85"
+      :class="{ 'bg-[#bdbdbd] dark:bg-[#2c2c2c]': active }"
     >
-      <div @click.stop="toggle()" class="">
+      <div
+        @click.stop="toggle()"
+        class="hover:bg-[#a5a5a5] dark:hover:bg-[#808080] rounded-[6px] p-0.5"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -55,7 +58,7 @@ const filter = () => {
 .accordion-enter-active,
 .accordion-leave-active {
   transition:
-    max-height 450ms ease,
+    max-height 550ms ease,
     opacity 400ms ease;
 }
 

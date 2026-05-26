@@ -117,9 +117,11 @@ const setActive = (id) => {
     class="h-screen flex bg-[#D9D9D9] dark:bg-[#1F1F1F] justify-center items-center md:justify-start"
   >
     <div
-      class="animate-slide-in-left shadow-xl 0.5s ease-out forwards md:h-screen md:w-[22vw] min-w-sm max-w-md min-h-76 md:max-w-md bg-[#1F1F1F] dark:bg-[#0B0B0B] rounded-[14px] md:rounded-none md:rounded-tr-[14px] md:rounded-br-[14px] flex flex-col gap-[20px] overflow-y-auto"
+      class="animate-slide-in-left shadow-xl 0.5s ease-out forwards md:h-screen md:w-[22vw] min-w-sm max-w-md min-h-76 md:max-w-sm bg-[#D4D4D4] dark:bg-[#0B0B0B] rounded-[14px] md:rounded-none md:rounded-tr-[14px] md:rounded-br-[14px] flex flex-col gap-[20px] overflow-y-auto"
     >
-      <h1 class="px-8 pt-26 dark:text-[#FFFFFF] font-domine text-[22px] opacity-60">Feeds</h1>
+      <h1 class="px-8 pt-26 text-[#000000] dark:text-[#FFFFFF] font-domine text-[20px] opacity-60">
+        Feeds
+      </h1>
       <BaseAccordion
         v-for="group in items"
         :key="group.id"
@@ -134,9 +136,9 @@ const setActive = (id) => {
             v-for="feed in group.feeds"
             :key="feed.id"
             :id="feed.id"
-            class="select-none cursor-pointer text-sm flex flex-row mx-18 py-1 gap-4 pl-2 rounded-[6px] hover:bg-[#3a3a3a] font-domine"
+            class="select-none cursor-pointer text-sm flex flex-row mx-18 py-1 items-center gap-4 pl-2 rounded-[6px] dark:hover:bg-[#3a3a3a] hover:bg-[#b1b1b1] font-domine active:scale-98 hover:scale-102 transition-transform duration-80 ease-out active:opacity-85"
             :active="activeId === `feed:${feed.id}`"
-            :class="{ 'bg-[#2c2c2c]': activeId === `feed:${feed.id}` }"
+            :class="{ 'bg-[#bdbdbd] dark:bg-[#2c2c2c]': activeId === `feed:${feed.id}` }"
             @click.stop.prevent="
               () => {
                 get_groups()
@@ -145,10 +147,24 @@ const setActive = (id) => {
             "
           >
             <img :src="faviconAndFeedId.get(feed.favicon_id)" class="w-6 h-6 rounded-[6px]" />
-            <div class="opacity-60">{{ feed.name }}</div>
+            <div class="opacity-60 text-black dark:text-white">{{ feed.name }}</div>
           </div>
         </template>
       </BaseAccordion>
     </div>
   </div>
 </template>
+
+<style>
+.animate-slide-in-left {
+  animation: slide-in-left 0.6s ease-out forwards;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><filter id='grain'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='7'/></filter><rect width='100%' height='100%' filter='url(%23grain)' opacity='0.45'/></svg>");
+  background-repeat: repeat;
+}
+
+@media (prefers-color-scheme: dark) {
+  .animate-slide-in-left {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><filter id='grain'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='7'/></filter><rect width='100%' height='100%' filter='url(%23grain)' opacity='0.15'/></svg>");
+  }
+}
+</style>

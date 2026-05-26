@@ -1,6 +1,6 @@
 <template>
   <button
-    class="bg-[#D9D9D9] text-[#1F1F1F] py-2 px-4 rounded-[14px] text-[17px] hover:bg-[#cccaca] active:scale-98 hover:scale-102 transition-transform duration-80 ease-out active:opacity-85"
+    class="bg-[#D9D9D9] text-[#1F1F1F] py-2 px-4 rounded-[14px] text-[17px] hover:bg-[#cccaca] active:scale-99 hover:scale-101 transition-transform duration-80 ease-out active:opacity-85"
     :type="type"
     :disabled="disabled"
     @click="onClick"
