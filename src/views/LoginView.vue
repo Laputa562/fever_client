@@ -3,32 +3,38 @@ import { ref } from 'vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import md5 from 'md5'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 const username = ref('')
 const password = ref('')
 const loading = ref(false)
+
 async function login() {
-  loading.value = true
-  const api_key = md5(`${username.value}:${password.value}`)
-  try {
-    const body = new URLSearchParams({
-      api_key: api_key,
-    })
-    const res = await fetch('/fever?api', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body,
-    })
-    const data = await res.json()
-    if (data.auth == 1) {
-      localStorage.setItem('fever_api_key', api_key)
-    } else {
-      console.log('Login Failed')
+  if (username.value != '' && password.value != '') {
+    loading.value = true
+    const api_key = md5(`${username.value}:${password.value}`)
+    try {
+      const body = new URLSearchParams({
+        api_key: api_key,
+      })
+      const res = await fetch('/fever?api', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
+      })
+      const data = await res.json()
+      if (data.auth == 1) {
+        localStorage.setItem('fever_api_key', api_key)
+        router.replace('/')
+      } else {
+        console.log('Login Failed')
+      }
+    } catch (err) {
+      console.error(err)
+    } finally {
+      loading.value = false
     }
-    console.log('Saved:', data)
-  } catch (err) {
-    console.error(err)
-  } finally {
-    loading.value = false
   }
 }
 </script>
@@ -40,11 +46,13 @@ async function login() {
       class="animate-slide-in-left shadow-xl 0.5s ease-out forwards md:h-screen md:w-[22vw] min-w-sm max-w-md min-h-76 md:max-w-md bg-[#1F1F1F] dark:bg-[#0B0B0B] rounded-[14px] md:rounded-none md:rounded-tr-[14px] md:rounded-br-[14px] flex justify-center items-center flex-col px-12 gap-[20px]"
     >
       <h1 class="font-domine text-white text-3xl font-semibold">Log in</h1>
-      <BaseInput v-model="username" :disabled="loading" placeholder="Username" />
-      <BaseInput v-model="password" :disabled="loading" type="password" placeholder="Password" />
-      <BaseButton @click="login" @keyup.enter="login" class="mt-4 w-full">
-        {{ loading ? 'Logging in…' : 'Log in' }}</BaseButton
-      >
+      <form @submit.prevent="login">
+        <BaseInput v-model="username" :disabled="loading" placeholder="Username" />
+        <BaseInput v-model="password" :disabled="loading" type="password" placeholder="Password" />
+        <BaseButton type="submit" class="mt-4 w-full">
+          {{ loading ? 'Logging in…' : 'Log in' }}</BaseButton
+        >
+      </form>
     </div>
   </div>
 </template>
